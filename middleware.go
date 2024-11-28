@@ -18,7 +18,7 @@ type Middleware struct {
 func (m *Middleware) Use(next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
-		// Initialize the status to 200 in case WriteHeader is not called
+		// default status is 200, incase WriteHeader is not called
 		rec := statusRecorder{w, 200}
 
 		// do
