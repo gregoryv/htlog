@@ -9,7 +9,7 @@ import (
 )
 
 func ExampleDefault() {
-	http.Handle("/", htlog.Default(serveHello()))
+	http.Handle("/", htlog.UseDefault(serveHello()))
 	http.ListenAndServe(":8080", nil)
 }
 

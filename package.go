@@ -6,8 +6,8 @@ import (
 	"net/url"
 )
 
-// Default middleware logging all requests using log.Println.
-func Default(next http.Handler) http.HandlerFunc {
+// UseDefault middleware logging all requests using log.Println.
+func UseDefault(next http.Handler) http.HandlerFunc {
 	m := &Middleware{
 		Println: log.Println,
 		Clean:   DefaultClean,
@@ -15,7 +15,7 @@ func Default(next http.Handler) http.HandlerFunc {
 	return m.Use(next)
 }
 
-// DefaultClean is used by Default constructor
+// DefaultClean is used by [UseDefault] constructor.
 var DefaultClean = QueryHide("access_token", "password", "secret")
 
 // QueryHide returns a cleanup func for use in [Middleware].  Each

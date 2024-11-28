@@ -20,7 +20,7 @@ func Test_Default(t *testing.T) {
 			fmt.Fprint(w, "hello")
 		},
 	)
-	h := htlog.Default(router)
+	h := htlog.UseDefault(router)
 	var buf bytes.Buffer
 	log.SetOutput(&buf)
 

@@ -5,6 +5,7 @@ be noted in this file.
 
 ## [0.1.1-dev]
 
+- Rename func Default to UseDefault
 - Define and document DefaultClean
 
 ## [0.1.0] 2024-11-26
