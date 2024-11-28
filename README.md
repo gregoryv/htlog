@@ -10,5 +10,9 @@ then use it
      var h http.Handler
    
      // use default middleware
-     router := htlog.Default(h)
+     router := htlog.UseDefault(h)
+
+Depending on the configured Println a request can be logged as
+
+    2024/11/28 20:25:00 GET /?password=... 200 7.544µs
 
