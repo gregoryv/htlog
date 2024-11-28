@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -23,11 +24,37 @@ func Test_Default(t *testing.T) {
 	var buf bytes.Buffer
 	log.SetOutput(&buf)
 
-	r := httptest.NewRequest("GET", "/?access_token=SECRET", http.NoBody)
+	r := httptest.NewRequest("GET", "/?password=SECRET", http.NoBody)
 	_ = recordResp(h, r)
 	got := buf.String()
-	if err := contains(got, "GET", "/", "µs", "token=..."); err != nil {
+	err := contains(got, "GET", "/", "µs", "password=...")
+	if err != nil {
 		t.Error(got, err)
+	}
+}
+
+func Test_QueryHide(t *testing.T) {
+	r := httptest.NewRequest("GET", "/some/secret", http.NoBody)
+	got := htlog.QueryHide()(r.URL)
+	if err := contains(got, "/some/secret"); err != nil {
+		t.Error(err)
+	}
+}
+
+func Test_DefaultClean(t *testing.T) {
+	cases := []string{
+		"access_token",
+		"secret",
+		"password",
+	}
+	for _, c := range cases {
+		t.Run(c, func(t *testing.T) {
+			u, _ := url.Parse("http://example.com/?" + c + "=SECRET")
+			got := htlog.DefaultClean(u)
+			if err := contains(got, "SECRET"); err == nil {
+				t.Errorf("expected %q value to be hidden", c)
+			}
+		})
 	}
 }
 
